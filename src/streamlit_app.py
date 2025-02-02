@@ -2,10 +2,10 @@ import streamlit as st
 import os
 from typing import Dict
 import tempfile
-from input.file_processor import FileProcessor
-from grading.schema_loader import load_grading_schema
-from models.ai_models import AIGrader, ConsensusGrader
-from grading.grader import AssignmentGrader
+from src.input.file_processor import FileProcessor
+from src.grading.schema_loader import load_grading_schema
+from src.models.ai_models import AIGrader, ConsensusGrader
+from src.grading.grader import AssignmentGrader
 
 def initialize_grading_system(api_key: str) -> AssignmentGrader:
     """Initialize the grading system with the provided API key."""

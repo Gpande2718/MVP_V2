@@ -1,5 +1,5 @@
 from typing import Dict
-from .criteria import GradingSchema, GradingCriterion
+from src.grading.criteria import GradingSchema, GradingCriterion
 
 def load_grading_schema(assignment_id: str) -> GradingSchema:
     """
