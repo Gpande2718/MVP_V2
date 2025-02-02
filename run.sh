@@ -1,3 +1,4 @@
 #!/bin/bash
-export PYTHONPATH=$PYTHONPATH:$(pwd)
-streamlit run grading_app/streamlit_app.py 
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+cd grading_app
+streamlit run streamlit_app.py 

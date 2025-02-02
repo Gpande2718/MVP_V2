@@ -4,7 +4,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from pydantic import BaseModel, Field
 import os
-from ..grading.criteria import GradingCriterion, GradingSchema
+from grading_app.grading.criteria import GradingCriterion, GradingSchema
 
 class GradingResult(BaseModel):
     points: float = Field(description="Points awarded for this criterion")

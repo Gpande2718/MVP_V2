@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 from .criteria import GradingCriterion, GradingSchema
-from ..models.ai_models import ConsensusGrader, GradingResult
+from grading_app.models.ai_models import ConsensusGrader, GradingResult
 from dataclasses import dataclass
 
 @dataclass
