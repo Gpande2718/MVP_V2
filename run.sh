@@ -1,3 +1,3 @@
 #!/bin/bash
 export PYTHONPATH=$PYTHONPATH:$(pwd)
-streamlit run src/streamlit_app.py 
+streamlit run grading_app/streamlit_app.py 
