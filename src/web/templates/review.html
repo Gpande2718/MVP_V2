@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignment Review Interface</title>
+    <style>
+        .submission-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        .low-confidence {
+            border-left: 5px solid #ff4444;
+        }
+        .review-form {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Submissions Requiring Review</h1>
+    
+    <div id="submissions-container">
+        {% for submission in submissions %}
+        <div class="submission-card {% if submission.confidence_score < 0.7 %}low-confidence{% endif %}">
+            <h3>Submission ID: {{ submission.submission_id }}</h3>
+            <p><strong>Original Grade:</strong> {{ submission.original_grade }}</p>
+            <p><strong>Confidence Score:</strong> {{ submission.confidence_score }}</p>
+            
+            <h4>Submission Text:</h4>
+            <pre>{{ submission.submission_text }}</pre>
+            
+            {% if not submission.reviewed_at %}
+            <div class="review-form">
+                <h4>Grade Adjustment</h4>
+                <form onsubmit="submitReview('{{ submission.submission_id }}')">
+                    <label>Adjusted Points:
+                        <input type="number" id="points-{{ submission.submission_id }}" step="0.5" required>
+                    </label>
+                    <br>
+                    <label>Adjustment Reason:
+                        <textarea id="reason-{{ submission.submission_id }}" required></textarea>
+                    </label>
+                    <br>
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+            {% else %}
+            <div class="review-info">
+                <p><strong>Reviewed by:</strong> {{ submission.reviewed_by }}</p>
+                <p><strong>Review Notes:</strong> {{ submission.review_notes }}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        async function submitReview(submissionId) {
+            const points = document.getElementById(`points-${submissionId}`).value;
+            const reason = document.getElementById(`reason-${submissionId}`).value;
+            
+            try {
+                const response = await fetch('/review-submission', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        submission_id: submissionId,
+                        adjusted_points: parseFloat(points),
+                        adjustment_reason: reason,
+                        reviewer: localStorage.getItem('username')
+                    })
+                });
+                
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    alert('Error submitting review');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting review');
+            }
+        }
+    </script>
+</body>
+</html> 
